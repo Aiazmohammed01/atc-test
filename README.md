@@ -64,6 +64,9 @@ terraform apply
 ```
 Note: if you see the nodes in 'Not ready' state, add the 'vpn-cni' add-on manually and re-apply the 'terraform apply'.
 
+Make sure to add vpn-cni for network configurations and 'ebs-csi-driver' for PVCs.
+
+
 2. **Update kubeconfig**:
 ```bash
 aws eks update-kubeconfig --name ats-cluster --region us-east-1
