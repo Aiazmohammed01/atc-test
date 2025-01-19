@@ -39,11 +39,23 @@ module "eks" {
 
   bootstrap_self_managed_addons = false
   cluster_addons = {
-    vpc-cni            = {}
-    coredns            = {}
-    kube-proxy         = {}
-    aws-ebs-csi-driver = {}
+    vpc-cni = {
+      before_compute = true
+      most_recent    = true
+      configuration_values = jsonencode({
+        env = {
+          ENABLE_POD_ENI                    = "true"
+          ENABLE_PREFIX_DELEGATION          = "true"
+          POD_SECURITY_GROUP_ENFORCING_MODE = "standard"
+        }
+        nodeAgent = {
+          enablePolicyEventLogs = "true"
+        }
+        enableNetworkPolicy = "true"
+      })
+    }
   }
+
 
   # Optional
   cluster_endpoint_public_access = true
@@ -57,18 +69,18 @@ module "eks" {
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
-    instance_types = ["t2.small"]
+    instance_types = ["t2.micro"]
   }
 
   eks_managed_node_groups = {
     atc = {
       # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
       ami_type       = "AL2023_x86_64_STANDARD"
-      instance_types = ["t2.small"]
+      instance_types = ["t2.micro"]
 
-      min_size     = 3
+      min_size     = 1
       max_size     = 10
-      desired_size = 3
+      desired_size = 1
 
       # Associate the security group with the node group
       additional_security_group_ids = [aws_security_group.eks_node_group_sg.id]

@@ -60,11 +60,9 @@ The infrastructure is defined using Terraform with the following main components
 1. **Initialize and Apply Terraform**:
 ```bash
 terraform init
-terraform apply
+terraform plan
+terraform apply -auto-approve
 ```
-Note: if you see the nodes in 'Not ready' state, add the 'vpn-cni' add-on manually and re-apply the 'terraform apply'.
-
-Make sure to add vpn-cni for network configurations and 'ebs-csi-driver' for PVCs.
 
 
 2. **Update kubeconfig**:

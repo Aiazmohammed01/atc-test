@@ -12,7 +12,7 @@ data:
     - groups:
       - system:bootstrappers
       - system:nodes
-      rolearn: arn:aws:iam::183295454740:role/example-eks-node-group-20250108193312207500000008
+      rolearn: arn:aws:iam::183295454740:role/atc-eks-node-group-20250119214653646800000008
       username: system:node:{{EC2PrivateDNSName}}
   mapUsers: |
     - userarn: arn:aws:iam::183295454740:root
